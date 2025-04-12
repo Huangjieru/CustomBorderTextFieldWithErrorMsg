@@ -9,9 +9,19 @@ import UIKit
 
 class BorderTextFieldWithErrorMsg: UITextField {
     
+    private var titleLabel: UILabel!
+    private var errorLabel: UILabel!
+    private var borderView: UIView!
+    private var heightConstraint: NSLayoutConstraint!
+    
     private var _titleText: String? {
         didSet {
             titleLabel.text = _titleText
+            titleLabel.isHidden = _titleText?.isEmpty == true || _titleText == nil
+            if titleLabel.isHidden {
+                borderView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+            }
+            updateHeight()
         }
     }
     
@@ -19,13 +29,9 @@ class BorderTextFieldWithErrorMsg: UITextField {
         didSet {
             errorLabel.text = _errorMsg
             errorLabel.isHidden = _errorMsg?.isEmpty == true || _errorMsg == nil
+            updateHeight()
         }
     }
-    
-    private var titleLabel: UILabel!
-    private var errorLabel: UILabel!
-    private var borderView: UIView!
-    private var height: NSLayoutConstraint!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -37,7 +43,7 @@ class BorderTextFieldWithErrorMsg: UITextField {
         autocorrectionType = .no
         spellCheckingType = .no
     }
-
+    
     override var placeholder: String? {
         didSet {
             guard let placeholder = self.placeholder else { return }
@@ -45,41 +51,24 @@ class BorderTextFieldWithErrorMsg: UITextField {
                 string: placeholder,
                 attributes: [
                     .foregroundColor: UIColor.systemGray4,
-                        .font: UIFont.systemFont(ofSize: 12)
+                    .font: UIFont.systemFont(ofSize: 12)
                 ]
             )
         }
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        guard let rightView = rightView else { return }
-        let rightViewSize = rightView.frame.size
-        let yPosition = self.borderView.frame.minY + ((self.borderView.frame.size.height / 2) - (rightViewSize.height / 2))
-        rightView.frame = CGRect(x: bounds.width - rightViewSize.width - 12, y: yPosition, width: rightViewSize.width, height: rightViewSize.height)
-        self.rightViewMode = .always
-    }
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect {
-        let bottom: CGFloat =  _errorMsg?.isEmpty == true || _errorMsg == nil ? 0 : 23
-        let padding = UIEdgeInsets(top: 23, left: 12, bottom: bottom, right: 12)
-        return bounds.inset(by: padding)
+        return setTextRect(forBounds: bounds)
     }
     
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let bottom: CGFloat =  _errorMsg?.isEmpty == true || _errorMsg == nil ? 0 : 23
-        let padding = UIEdgeInsets(top: 23, left: 12, bottom: bottom, right: 12)
-        return bounds.inset(by: padding)
+        return setTextRect(forBounds: bounds)
     }
     
     override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        guard let font = self.font else {
-            return bounds.inset(by: UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12))
-        }
-        let textHeight = font.lineHeight
+        let textHeight = font?.lineHeight ?? 20
         let borderMidY = borderView.frame.midY
         let yPosition = borderMidY - (textHeight / 2)
-        
         return CGRect(x: 12, y: yPosition, width: bounds.width - 24, height: textHeight)
     }
     
@@ -91,10 +80,19 @@ class BorderTextFieldWithErrorMsg: UITextField {
         return CGRect(x: xPosition - 12, y: yPosition, width: buttonWidth, height: buttonHeight)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard let rightView = rightView else { return }
+        let rightViewSize = rightView.frame.size
+        let yPosition = self.borderView.frame.minY + ((self.borderView.frame.size.height / 2) - (rightViewSize.height / 2))
+        rightView.frame = CGRect(x: bounds.width - rightViewSize.width - 12, y: yPosition, width: rightViewSize.width, height: rightViewSize.height)
+        self.rightViewMode = .always
+    }
+    
     override func becomeFirstResponder() -> Bool {
         _errorMsg = nil
         borderView.layer.borderColor = UIColor.purple.cgColor
-        height.constant = 63
+        updateHeight()
         self.tintColor = UIColor.purple
         super.becomeFirstResponder()
         return true
@@ -112,7 +110,6 @@ class BorderTextFieldWithErrorMsg: UITextField {
     
     func setErrorInfo(errorText: String?) {
         _errorMsg = errorText
-        height.constant = _errorMsg?.isEmpty == true || _errorMsg == nil ? 63 : 86
     }
 }
 extension BorderTextFieldWithErrorMsg {
@@ -130,26 +127,6 @@ extension BorderTextFieldWithErrorMsg {
         
         addSubview(borderView)
         sendSubviewToBack(borderView)
-    }
-    
-    private func setUpConstraints() {
-        translatesAutoresizingMaskIntoConstraints = false
-        height = heightAnchor.constraint(equalToConstant: 63)
-        height.isActive = true
-        
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-            
-            borderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6),
-            borderView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            borderView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            borderView.heightAnchor.constraint(equalToConstant: 40),
-            
-            errorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            errorLabel.topAnchor.constraint(equalTo: borderView.bottomAnchor, constant: 6),
-            errorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        ])
     }
     
     private func setTitleLabel() {
@@ -171,5 +148,46 @@ extension BorderTextFieldWithErrorMsg {
         errorLabel.layer.backgroundColor = UIColor.clear.cgColor
         errorLabel.numberOfLines = 0
         self.addSubview(errorLabel)
+    }
+    
+    private func setUpConstraints() {
+        translatesAutoresizingMaskIntoConstraints = false
+        heightConstraint = heightAnchor.constraint(equalToConstant: 63)
+        heightConstraint.isActive = true
+        
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            
+            borderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6),
+            borderView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            borderView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            borderView.heightAnchor.constraint(equalToConstant: 40),
+            
+            errorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            errorLabel.topAnchor.constraint(equalTo: borderView.bottomAnchor, constant: 6),
+            errorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+        ])
+    }
+    
+    private func updateHeight() {
+        let hasTitleText = _titleText?.isEmpty == false
+        let hasErrorText = _errorMsg?.isEmpty == false
+        
+        switch (hasTitleText, hasErrorText) {
+        case (true, true):
+            heightConstraint?.constant = 86
+        case (false, false):
+            heightConstraint?.constant = 40
+        case (true, false), (false, true):
+            heightConstraint?.constant = 63
+        }
+    }
+    
+    private func setTextRect(forBounds bounds: CGRect) -> CGRect {
+        let bottom: CGFloat = errorLabel.isHidden == false ? 23 : 0
+        let top: CGFloat = titleLabel.isHidden == false ? self.borderView.frame.minY - (self.borderView.frame.size.height / 2) + (font?.lineHeight ?? 20 / 2) : 0
+        let padding = UIEdgeInsets(top: top, left: 12, bottom: bottom, right: 12)
+        return bounds.inset(by: padding)
     }
 }

@@ -17,8 +17,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        name.setTitleInfo(titleText: "姓名")
-//        name.placeholder = "請輸入姓名"
+        name.setTitleInfo(titleText: "")
+//        name.placeholder = "請輸入姓名" //或在Attributes inspector輸入placeholder
         name.rightView = eyeButton
         name.delegate = self
         
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         
         setTap()
     }
-
+    
     @IBAction func showError(_ sender: UIButton) {
         name.setErrorInfo(errorText: "打錯囉！！")
         birthday.setErrorInfo(errorText: "打錯囉！！")
@@ -56,8 +56,15 @@ class ViewController: UIViewController {
 
 extension ViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        name.setErrorInfo(errorText: nil)
-        birthday.setErrorInfo(errorText: nil)
+        
+        switch textField {
+        case name:
+            name.setErrorInfo(errorText: nil)
+        case birthday:
+            birthday.setErrorInfo(errorText: nil)
+        default:
+            return true
+        }
         return true
     }
 }
