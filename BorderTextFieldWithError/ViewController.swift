@@ -19,12 +19,14 @@ class ViewController: UIViewController {
         
         name.setTitleInfo(titleText: "姓名")
 //        name.placeholder = "請輸入姓名"
-        name.rightViewMode = .always
         name.rightView = eyeButton
+        name.delegate = self
         
         birthday.setTitleInfo(titleText: "西元生日")
         birthday.placeholder = "YYYY/MM/DD"
         birthday.clearButtonMode = .whileEditing
+        birthday.delegate = self
+        
         setTap()
     }
 
@@ -52,3 +54,10 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        name.setErrorInfo(errorText: nil)
+        birthday.setErrorInfo(errorText: nil)
+        return true
+    }
+}

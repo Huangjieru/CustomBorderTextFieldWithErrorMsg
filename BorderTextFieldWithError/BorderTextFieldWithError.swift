@@ -57,6 +57,7 @@ class BorderTextFieldWithErrorMsg: UITextField {
         let rightViewSize = rightView.frame.size
         let yPosition = self.borderView.frame.minY + ((self.borderView.frame.size.height / 2) - (rightViewSize.height / 2))
         rightView.frame = CGRect(x: bounds.width - rightViewSize.width - 12, y: yPosition, width: rightViewSize.width, height: rightViewSize.height)
+        self.rightViewMode = .always
     }
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -87,7 +88,7 @@ class BorderTextFieldWithErrorMsg: UITextField {
         let buttonHeight: CGFloat = 30
         let xPosition = bounds.maxX - buttonWidth
         let yPosition = self.borderView.frame.minY + ((self.borderView.frame.size.height / 2) - (buttonHeight / 2))
-        return CGRect(x: xPosition, y: yPosition, width: buttonWidth, height: buttonHeight)
+        return CGRect(x: xPosition - 12, y: yPosition, width: buttonWidth, height: buttonHeight)
     }
     
     override func becomeFirstResponder() -> Bool {
