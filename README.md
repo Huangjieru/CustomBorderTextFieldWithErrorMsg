@@ -1,12 +1,11 @@
 # 客製化輸入框元件
+![樣式](https://github.com/Huangjieru/CustomBorderTextFieldWithErrorMsg/blob/develop/README%20IMAGE/%E9%A0%90%E8%A8%AD.png)
+
 此元件基於原生 `UITextField`產生，具有以下功能：
 1. 支援標題顯示：清楚提示欄位輸入目的。
 2. 動態邊框顏色：輸入時動態變更邊框顏色，提升欄位辨識度。
 3. 錯誤訊息提示：驗證失敗時顯示錯誤訊息，協助使用者即時修正。
 4. 自訂右側功能：可自訂是否顯示清除按鈕（Clear Button）或右側按鈕（Right View）。
-
-![樣式](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/預設.png)
-
 
 ## 使用方式（Usage）
 **使用 Storyboard / Xib**
@@ -56,7 +55,7 @@
 ```
 
 ## 清除按鈕（Clear Button）
-![清除按鈕](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/清除按鈕.png)
+![清除按鈕](https://github.com/Huangjieru/CustomBorderTextFieldWithErrorMsg/blob/develop/README%20IMAGE/%E6%B8%85%E9%99%A4%E6%8C%89%E9%88%95.png)
 
 輸入文字時，右側出現清除文字按鈕
 ```Swift
@@ -64,7 +63,7 @@ textField.clearButtonMode = .whileEditing
 ```
 
 ## 右側按鈕（RightView)
-![右側按鈕](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/右側功能.png)
+![右側按鈕](https://github.com/Huangjieru/CustomBorderTextFieldWithErrorMsg/blob/develop/README%20IMAGE/%E5%8F%B3%E5%81%B4%E5%8A%9F%E8%83%BD.png)
 
 可加上自訂按鈕或圖示
 ```Swift
@@ -72,7 +71,7 @@ textField.rightView = UIView()
 ```
 
 ## 錯誤訊息（ErrorInfo)
-![錯誤訊息](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/錯誤訊息.png)
+![錯誤訊息](https://github.com/Huangjieru/CustomBorderTextFieldWithErrorMsg/blob/develop/README%20IMAGE/%E9%8C%AF%E8%AA%A4%E8%A8%8A%E6%81%AF.png)
 
 * 顯示錯誤訊息
 ```Swift
