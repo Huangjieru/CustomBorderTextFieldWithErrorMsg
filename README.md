@@ -5,6 +5,9 @@
 3. 錯誤訊息提示：驗證失敗時顯示錯誤訊息，協助使用者即時修正。
 4. 自訂右側功能：可自訂是否顯示清除按鈕（Clear Button）或右側按鈕（Right View）。
 
+![樣式](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/預設.png)
+
+
 ## 使用方式（Usage）
 **使用 Storyboard / Xib**
 
@@ -53,6 +56,7 @@
 ```
 
 ## 清除按鈕（Clear Button）
+![清除按鈕](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/清除按鈕.png)
 
 輸入文字時，右側出現清除文字按鈕
 ```Swift
@@ -60,10 +64,25 @@ textField.clearButtonMode = .whileEditing
 ```
 
 ## 右側按鈕（RightView)
+![右側按鈕](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/右側功能.png)
 
 可加上自訂按鈕或圖示
 ```Swift
 textField.rightView = UIView()
+```
+
+## 錯誤訊息（ErrorInfo)
+![錯誤訊息](/Users/jru/Desktop/BorderTextFieldWithError/README IMAGE/錯誤訊息.png)
+
+* 顯示錯誤訊息
+```Swift
+textField.setErrorInfo(errorText: "錯誤訊息")
+```
+* 隱藏錯誤訊息（傳入空字串或 nil）
+
+  可以給`空字串`或`nil`
+```Swift
+ textField.setTitleInfo(titleText: "")
 ```
 
 ## 邊框顏色設定
