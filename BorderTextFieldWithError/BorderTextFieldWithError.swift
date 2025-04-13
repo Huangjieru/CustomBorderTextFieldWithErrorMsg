@@ -13,6 +13,13 @@ class BorderTextFieldWithErrorMsg: UITextField {
     private var errorLabel: UILabel!
     private var borderView: UIView!
     private var heightConstraint: NSLayoutConstraint!
+    private var inputBorderColor: UIColor?
+    
+    private var borderColor: UIColor? {
+        didSet {
+            self.borderView.layer.borderColor = borderColor?.cgColor
+        }
+    }
     
     private var _titleText: String? {
         didSet {
@@ -91,25 +98,29 @@ class BorderTextFieldWithErrorMsg: UITextField {
     
     override func becomeFirstResponder() -> Bool {
         _errorMsg = nil
-        borderView.layer.borderColor = UIColor.purple.cgColor
+        borderView.layer.borderColor = inputBorderColor?.cgColor
         updateHeight()
-        self.tintColor = UIColor.purple
         super.becomeFirstResponder()
         return true
     }
     
     override func resignFirstResponder() -> Bool {
-        borderView.layer.borderColor = UIColor.systemGray6.cgColor
+        borderView.layer.borderColor = borderColor?.cgColor
         super.resignFirstResponder()
         return true
     }
     
     func setTitleInfo(titleText: String?) {
-        self._titleText = titleText
+        _titleText = titleText
     }
     
     func setErrorInfo(errorText: String?) {
         _errorMsg = errorText
+    }
+    
+    func setBorderColor(borderColor: UIColor, inputBorderColor: UIColor) {
+        self.borderColor = borderColor
+        self.inputBorderColor = inputBorderColor
     }
 }
 extension BorderTextFieldWithErrorMsg {

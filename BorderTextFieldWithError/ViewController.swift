@@ -21,6 +21,9 @@ class ViewController: UIViewController {
 //        name.placeholder = "請輸入姓名" //或在Attributes inspector輸入placeholder
         name.rightView = eyeButton
         name.delegate = self
+        name.setBorderColor(borderColor: UIColor.clear, inputBorderColor: UIColor.systemMint)
+        name.tintColor = UIColor.systemMint
+        name.textColor = UIColor.systemGray
         
         birthday.setTitleInfo(titleText: "西元生日")
         birthday.placeholder = "YYYY/MM/DD"
