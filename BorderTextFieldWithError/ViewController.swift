@@ -17,18 +17,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        name.setTitleInfo(titleText: "")
-//        name.placeholder = "請輸入姓名" //或在Attributes inspector輸入placeholder
-        name.rightView = eyeButton
         name.delegate = self
-        name.setBorderColor(borderColor: UIColor.clear, inputBorderColor: UIColor.systemMint)
-        name.tintColor = UIColor.systemMint
-        name.textColor = UIColor.systemGray
+        name.setTitleInfo(titleText: "姓名")
+        name.placeholder = "請輸入姓名" //或在Attributes inspector輸入placeholder
+        name.setBorderColor(borderColor: UIColor.systemGray6, inputBorderColor: UIColor.purple)
+        name.tintColor = UIColor.purple
+        name.rightView = eyeButton
         
+        birthday.delegate = self
         birthday.setTitleInfo(titleText: "西元生日")
         birthday.placeholder = "YYYY/MM/DD"
+        birthday.setBorderColor(borderColor: UIColor.systemGray6, inputBorderColor: UIColor.purple)
+        birthday.tintColor = UIColor.purple
         birthday.clearButtonMode = .whileEditing
-        birthday.delegate = self
         
         setTap()
     }
