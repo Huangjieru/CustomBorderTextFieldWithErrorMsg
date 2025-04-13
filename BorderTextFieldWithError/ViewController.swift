@@ -14,6 +14,15 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var eyeButton: UIButton!
     
+    lazy private var textField: BorderTextFieldWithErrorMsg = {
+        let textField = BorderTextFieldWithErrorMsg()
+        textField.placeholder = "Name"
+        textField.setTitleInfo(titleText: "Your full name")
+        textField.setBorderColor(borderColor: .systemPink, inputBorderColor: .systemMint)
+        self.view.addSubview(textField)
+        return textField
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,15 +40,23 @@ class ViewController: UIViewController {
         birthday.tintColor = UIColor.purple
         birthday.clearButtonMode = .whileEditing
         
+        NSLayoutConstraint.activate([
+            textField.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
+            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
+        
         setTap()
     }
     
     @IBAction func showError(_ sender: UIButton) {
+        textField.setErrorInfo(errorText: "請再確認一次")
         name.setErrorInfo(errorText: "打錯囉！！")
         birthday.setErrorInfo(errorText: "打錯囉！！")
     }
     
     @IBAction func clearError(_ sender: UIButton) {
+        textField.setErrorInfo(errorText: nil)
         name.setErrorInfo(errorText: nil)
         birthday.setErrorInfo(errorText: nil)
     }
@@ -62,6 +79,8 @@ extension ViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         switch textField {
+        case textField:
+            self.textField.setErrorInfo(errorText: nil)
         case name:
             name.setErrorInfo(errorText: nil)
         case birthday:

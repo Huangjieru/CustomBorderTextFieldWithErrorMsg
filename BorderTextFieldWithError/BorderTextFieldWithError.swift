@@ -40,15 +40,14 @@ class BorderTextFieldWithErrorMsg: UITextField {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setView()
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setTitleLabel()
-        setErrorLabel()
-        setBorderView()
-        setUpConstraints()
-        
-        autocorrectionType = .no
-        spellCheckingType = .no
+        setView()
     }
     
     override var placeholder: String? {
@@ -124,6 +123,16 @@ class BorderTextFieldWithErrorMsg: UITextField {
     }
 }
 extension BorderTextFieldWithErrorMsg {
+    
+    private func setView() {
+        setTitleLabel()
+        setErrorLabel()
+        setBorderView()
+        setUpConstraints()
+        
+        autocorrectionType = .no
+        spellCheckingType = .no
+    }
     
     private func setBorderView() {
         borderStyle = .none
