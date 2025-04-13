@@ -40,7 +40,7 @@
 ```Swift
  textField.setTitleInfo(titleText: "標題名稱")
 ```
-* 隱藏標題（傳入空字串或 nil）
+* 隱藏標題
 
   可以給`空字串`或`nil`
 ```Swift
@@ -77,7 +77,7 @@ textField.rightView = UIView()
 ```Swift
 textField.setErrorInfo(errorText: "錯誤訊息")
 ```
-* 隱藏錯誤訊息（傳入空字串或 nil）
+* 隱藏錯誤訊息
 
   可以給`空字串`或`nil`
 ```Swift
