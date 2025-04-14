@@ -13,6 +13,8 @@ class BorderTextFieldWithErrorMsg: UITextField {
     private var errorLabel: UILabel!
     private var borderView: UIView!
     private var heightConstraint: NSLayoutConstraint!
+    private var hasTitleConstraint: NSLayoutConstraint!
+    private var noTitleConstraint: NSLayoutConstraint!
     private var inputBorderColor: UIColor?
     
     private var borderColor: UIColor? {
@@ -24,10 +26,10 @@ class BorderTextFieldWithErrorMsg: UITextField {
     private var _titleText: String? {
         didSet {
             titleLabel.text = _titleText
-            titleLabel.isHidden = _titleText?.isEmpty == true || _titleText == nil
-            if titleLabel.isHidden {
-                borderView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
-            }
+            let isTitleHidden = _titleText?.isEmpty == true || _titleText == nil
+            titleLabel.isHidden = isTitleHidden
+            hasTitleConstraint.isActive = !isTitleHidden
+            noTitleConstraint.isActive = isTitleHidden
             updateHeight()
         }
     }
@@ -122,6 +124,7 @@ class BorderTextFieldWithErrorMsg: UITextField {
         self.inputBorderColor = inputBorderColor
     }
 }
+
 extension BorderTextFieldWithErrorMsg {
     
     private func setView() {
@@ -172,14 +175,18 @@ extension BorderTextFieldWithErrorMsg {
     
     private func setUpConstraints() {
         translatesAutoresizingMaskIntoConstraints = false
-        heightConstraint = heightAnchor.constraint(equalToConstant: 63)
+        heightConstraint = heightAnchor.constraint(equalToConstant: 40)
         heightConstraint.isActive = true
+        
+        hasTitleConstraint = borderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6)
+        noTitleConstraint = borderView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0)
+        hasTitleConstraint.isActive = true
+        noTitleConstraint.isActive = false
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             
-            borderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6),
             borderView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             borderView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             borderView.heightAnchor.constraint(equalToConstant: 40),
