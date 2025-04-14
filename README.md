@@ -81,7 +81,7 @@ textField.setErrorInfo(errorText: "錯誤訊息")
 
   可以給`空字串`或`nil`
 ```Swift
- textField.setTitleInfo(titleText: "")
+ textField.setErrorInfo(errorText: "")
 ```
 
 ## 邊框顏色設定
