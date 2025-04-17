@@ -180,8 +180,8 @@ extension BorderTextFieldWithErrorMsg {
         
         hasTitleConstraint = borderView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6)
         noTitleConstraint = borderView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0)
-        hasTitleConstraint.isActive = true
-        noTitleConstraint.isActive = false
+        hasTitleConstraint.isActive = false
+        noTitleConstraint.isActive = true
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
